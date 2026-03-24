@@ -1,288 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Devine Golf — Quality Pre-Owned Golf Clubs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green: #1D9E75; --green-light: #E1F5EE; --green-mid: #5DCAA5; --green-dark: #0F6E56;
-      --black: #1a1a18; --gray: #6b6b67; --gray-light: #f5f4f0; --gray-border: #e4e3de;
-      --white: #ffffff;
-      --serif: 'Playfair Display', Georgia, serif;
-      --sans: 'DM Sans', system-ui, sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); color: var(--black); background: var(--white); font-size: 16px; line-height: 1.6; }
-
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.96); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--gray-border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2.5rem; height: 64px;
-    }
-    .nav-logo { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--black); text-decoration: none; }
-    .nav-logo span { color: var(--green); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { font-size: 14px; color: var(--gray); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--black); }
-    .nav-actions { display: flex; gap: 10px; }
-    .btn-outline { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 6px; border: 1px solid var(--gray-border); background: transparent; color: var(--gray); cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block; }
-    .btn-outline:hover { border-color: var(--green); color: var(--green); }
-    .btn-primary { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 6px; border: none; background: var(--green); color: white; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--green-dark); }
-
-    .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; overflow: hidden; }
-    .hero-left { padding: 5rem 3rem 5rem 2.5rem; display: flex; flex-direction: column; justify-content: center; }
-    .hero-tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); font-weight: 500; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
-    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--green); }
-    .hero h1 { font-family: var(--serif); font-size: clamp(34px, 4vw, 50px); font-weight: 600; line-height: 1.15; margin-bottom: 1.25rem; }
-    .hero h1 em { font-style: italic; color: var(--green); }
-    .hero p { font-size: 15px; color: var(--gray); line-height: 1.8; font-weight: 300; max-width: 400px; margin-bottom: 2rem; }
-    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-cta .btn-primary, .hero-cta .btn-outline { font-size: 14px; padding: 12px 26px; }
-    .hero-right { background: var(--green-light); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-    .hero-right::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(29,158,117,0.04) 40px, rgba(29,158,117,0.04) 41px); }
-    .hero-icon-wrap { position: relative; z-index: 1; text-align: center; }
-    .hero-icon-wrap svg { width: 110px; height: 110px; }
-    .hero-icon-label { margin-top: 1rem; font-size: 13px; color: var(--green-dark); }
-
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gray-border); border-bottom: 1px solid var(--gray-border); }
-    .stat { padding: 1.5rem 2rem; text-align: center; border-right: 1px solid var(--gray-border); }
-    .stat:last-child { border-right: none; }
-    .stat-num { font-family: var(--serif); font-size: 28px; font-weight: 600; color: var(--green); }
-    .stat-label { font-size: 12px; color: var(--gray); margin-top: 4px; font-weight: 300; }
-
-    .section-header { padding: 3.5rem 2.5rem 1.5rem; }
-    .section-tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); font-weight: 500; margin-bottom: 8px; }
-    .section-title { font-family: var(--serif); font-size: 30px; font-weight: 600; }
-
-    .listings { padding: 0 2.5rem 3.5rem; }
-    .filter-bar { display: flex; gap: 8px; margin-bottom: 1.75rem; flex-wrap: wrap; }
-    .filter-btn { font-family: var(--sans); font-size: 12px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--gray-border); background: transparent; color: var(--gray); cursor: pointer; transition: all 0.2s; }
-    .filter-btn:hover, .filter-btn.active { background: var(--black); color: white; border-color: var(--black); }
-    .club-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .club-card { background: var(--white); border: 1px solid var(--gray-border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-    .club-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-    .club-card-img { height: 200px; overflow: hidden; position: relative; background: var(--gray-light); display: flex; align-items: center; justify-content: center; }
-    .club-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .club-platform-badge { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 10px; background: white; color: var(--gray); border: 1px solid var(--gray-border); }
-    .club-card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
-    .club-brand { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); font-weight: 500; margin-bottom: 4px; }
-    .club-name { font-size: 14px; font-weight: 500; line-height: 1.35; margin-bottom: 10px; flex: 1; }
-    .club-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-    .club-price { font-family: var(--serif); font-size: 22px; font-weight: 600; }
-    .buy-now-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: none; background: var(--green); color: white; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
-    .buy-now-btn:hover { background: var(--green-dark); }
-    .no-results { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--gray); font-size: 15px; }
-
-    .about { background: var(--gray-light); border-top: 1px solid var(--gray-border); border-bottom: 1px solid var(--gray-border); display: grid; grid-template-columns: 1fr 1fr; }
-    .about-left { padding: 4rem 3rem 4rem 2.5rem; border-right: 1px solid var(--gray-border); }
-    .about-avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 30px; color: var(--green-dark); margin-bottom: 1.5rem; }
-    .about h2 { font-family: var(--serif); font-size: 28px; font-weight: 600; line-height: 1.25; margin-bottom: 0.5rem; }
-    .about-subtitle { font-size: 13px; color: var(--green); margin-bottom: 1.25rem; font-weight: 500; }
-    .about p { font-size: 15px; color: var(--gray); line-height: 1.8; font-weight: 300; margin-bottom: 1rem; }
-    .trust-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
-    .trust-badge { font-size: 12px; padding: 5px 12px; border-radius: 4px; background: white; color: var(--gray); border: 1px solid var(--gray-border); }
-    .about-right { padding: 4rem 2.5rem 4rem 3rem; }
-    .about-right h3 { font-family: var(--serif); font-size: 20px; font-weight: 600; margin-bottom: 1.25rem; }
-    .platform-card { background: white; border: 1px solid var(--gray-border); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; text-decoration: none; color: var(--black); transition: all 0.2s; }
-    .platform-card:hover { border-color: var(--green); box-shadow: 0 2px 12px rgba(29,158,117,0.1); }
-    .platform-card-name { font-size: 15px; font-weight: 500; }
-    .platform-card-desc { font-size: 12px; color: var(--gray); margin-top: 2px; }
-    .platform-card-arrow { font-size: 18px; color: var(--gray); transition: transform 0.2s, color 0.2s; }
-    .platform-card:hover .platform-card-arrow { transform: translateX(4px); color: var(--green); }
-    .contact-note { margin-top: 1.5rem; padding: 14px 18px; background: var(--green-light); border-radius: 8px; border-left: 3px solid var(--green); }
-    .contact-note p { font-size: 13px; color: var(--green-dark); line-height: 1.6; }
-
-    footer { padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--gray-border); }
-    .footer-logo { font-family: var(--serif); font-size: 18px; font-weight: 600; text-decoration: none; color: var(--black); }
-    .footer-logo span { color: var(--green); }
-    .footer-copy { font-size: 12px; color: var(--gray); }
-    .footer-links { display: flex; gap: 16px; }
-    .footer-links a { font-size: 12px; color: var(--gray); text-decoration: none; }
-    .footer-links a:hover { color: var(--green); }
-
-    @media (max-width: 768px) {
-      nav { padding: 0 1.25rem; }
-      .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 3rem 1.25rem; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .stat:nth-child(2) { border-right: none; }
-      .section-header { padding: 2.5rem 1.25rem 1rem; }
-      .listings { padding: 0 1.25rem 2.5rem; }
-      .about { grid-template-columns: 1fr; }
-      .about-left { border-right: none; border-bottom: 1px solid var(--gray-border); padding: 2.5rem 1.25rem; }
-      .about-right { padding: 2.5rem 1.25rem; }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
-    }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-left > * { animation: fadeUp 0.6s ease both; }
-    .hero-tag { animation-delay: 0.1s; } .hero h1 { animation-delay: 0.2s; } .hero p { animation-delay: 0.3s; } .hero-cta { animation-delay: 0.4s; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devine Golf</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <nav>
-    <a href="#" class="nav-logo">Devine <span>Golf</span></a>
-    <ul class="nav-links">
-      <li><a href="#listings">Shop</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#about">Contact</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="https://www.ebay.com/usr/devinegolf" target="_blank" class="btn-outline">eBay Store ↗</a>
-      <a href="#listings" class="btn-primary">Shop Now</a>
+    <h1>Welcome to Devine Golf</h1>
+    <div id="product-list">
+        <!-- Dynamic product items will be added here -->
     </div>
-  </nav>
-
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-tag">Top Rated eBay Seller · 100% Positive Feedback</div>
-      <h1>Play Better.<br><em>Spend Less.</em></h1>
-      <p>Hand-picked, personally inspected golf clubs from top brands. Every club sold with honesty, fast shipping, and a fair price.</p>
-      <div class="hero-cta">
-        <a href="#listings" class="btn-primary">Browse Clubs</a>
-        <a href="https://www.ebay.com/usr/devinegolf" target="_blank" class="btn-outline">View eBay Store ↗</a>
-      </div>
+    <div id="cart">
+        <h2>Shopping Cart</h2>
+        <div id="cart-items"></div>
+        <button id="checkout-button">Checkout</button>
+        <p>Total: <span id="total-price">$0.00</span></p>
     </div>
-    <div class="hero-right">
-      <div class="hero-icon-wrap">
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="60" r="56" fill="white" fill-opacity="0.6" stroke="#5DCAA5" stroke-width="1.5"/>
-          <rect x="54" y="18" width="12" height="48" rx="6" fill="#1D9E75"/>
-          <ellipse cx="60" cy="84" rx="18" ry="6" fill="#9FE1CB"/>
-          <rect x="57" y="74" width="6" height="20" rx="3" fill="#0F6E56"/>
-          <circle cx="60" cy="96" r="4" fill="#1D9E75"/>
-        </svg>
-        <div class="hero-icon-label">Devine Golf</div>
-      </div>
-    </div>
-  </section>
+    <script>
+        const stripe = Stripe('your-publishable-key-here');
+        let cart = [];
 
-  <div class="stats">
-    <div class="stat"><div class="stat-num">165+</div><div class="stat-label">Items sold</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Positive feedback</div></div>
-    <div class="stat"><div class="stat-num">⭐ 5.0</div><div class="stat-label">Seller rating</div></div>
-    <div class="stat"><div class="stat-num">Fast</div><div class="stat-label">Same-day shipping</div></div>
-  </div>
+        function addToCart(product) {
+            cart.push(product);
+            updateCart();
+        }
 
-  <div id="listings">
-    <div class="section-header">
-      <div class="section-tag">Live eBay listings</div>
-      <div class="section-title">Shop all clubs</div>
-    </div>
-    <div class="listings">
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterClubs('all',this)">All</button>
-        <button class="filter-btn" onclick="filterClubs('irons',this)">Irons</button>
-        <button class="filter-btn" onclick="filterClubs('driver',this)">Drivers & Woods</button>
-        <button class="filter-btn" onclick="filterClubs('wedge',this)">Wedges</button>
-        <button class="filter-btn" onclick="filterClubs('hybrid',this)">Hybrids</button>
-      </div>
-      <div class="club-grid" id="club-grid"></div>
-    </div>
-  </div>
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
 
-  <section id="about" class="about">
-    <div class="about-left">
-      <div class="about-avatar">D</div>
-      <h2>Hey, I'm the guy behind Devine Golf</h2>
-      <div class="about-subtitle">Top Rated Seller · Golfer · Gear Nerd</div>
-      <p>I've been buying, testing, and reselling golf clubs for years. Every club I sell is one I've personally inspected — I only list things I'd be happy to play myself or hand to a friend.</p>
-      <p>No fluff, no inflated prices. Just honest gear at fair prices. Whether you're a beginner or a serious player after something specific, I'm happy to help.</p>
-      <div class="trust-badges">
-        <span class="trust-badge">✓ Personally inspected</span>
-        <span class="trust-badge">✓ Fast shipping</span>
-        <span class="trust-badge">✓ Top Rated Seller</span>
-        <span class="trust-badge">✓ 100% positive feedback</span>
-      </div>
-    </div>
-    <div class="about-right">
-      <h3>Find me on</h3>
-      <a href="https://www.ebay.com/usr/devinegolf" target="_blank" class="platform-card">
-        <div><div class="platform-card-name">eBay Store</div><div class="platform-card-desc">Full listings with Buy It Now & Best Offer</div></div>
-        <div class="platform-card-arrow">→</div>
-      </a>
-      <a href="https://www.facebook.com/marketplace" target="_blank" class="platform-card">
-        <div><div class="platform-card-name">Facebook Marketplace</div><div class="platform-card-desc">Local pickup welcome — no shipping fees</div></div>
-        <div class="platform-card-arrow">→</div>
-      </a>
-      <a href="https://www.ebay.com/cnt/intermediatedFAQ?requested=devinegolf" target="_blank" class="platform-card">
-        <div><div class="platform-card-name">Message me on eBay</div><div class="platform-card-desc">Questions about condition, specs, or fit</div></div>
-        <div class="platform-card-arrow">→</div>
-      </a>
-      <div class="contact-note">
-        <p>Looking for something specific? Send me a message — I buy new stock regularly and may be able to source what you need.</p>
-      </div>
-    </div>
-  </section>
+            cart.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = `${item.name} - $${item.price}`;
+                cartItemsContainer.appendChild(itemDiv);
+                total += item.price;
+            });
 
-  <footer>
-    <a href="#" class="footer-logo">Devine <span>Golf</span></a>
-    <div class="footer-copy">© 2026 Devine Golf · All rights reserved</div>
-    <div class="footer-links">
-      <a href="https://www.ebay.com/usr/devinegolf" target="_blank">eBay</a>
-      <a href="https://www.facebook.com/marketplace" target="_blank">Facebook</a>
-      <a href="https://www.ebay.com/cnt/intermediatedFAQ?requested=devinegolf" target="_blank">Contact</a>
-    </div>
-  </footer>
+            document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+        }
 
-  <script>
-    const clubs = [
-      { name: "TaylorMade Milled Grind Black Lob Wedge 60° SB-11 Dynamic Gold RH", brand: "TaylorMade", price: "$54.99", category: "wedge", img: "https://i.ebayimg.com/images/g/7r4AAeSwmeRpwumV/s-l300.jpg", url: "https://www.ebay.com/itm/127768188216" },
-      { name: "TaylorMade Milled Grind 48° SB-09 Wedge RH TTDG Wedge Flex Steel", brand: "TaylorMade", price: "$69.99", category: "wedge", img: "https://i.ebayimg.com/images/g/vqUAAeSwridpwuS9/s-l300.jpg", url: "https://www.ebay.com/itm/127768158019" },
-      { name: "TaylorMade P-7MB Iron Set 4-PW S400 Tour Issue GD Shafts RH", brand: "TaylorMade", price: "$599.99", category: "irons", img: "https://i.ebayimg.com/images/g/jLoAAeSw32dpwdgE/s-l300.jpg", url: "https://www.ebay.com/itm/127766441735" },
-      { name: "TaylorMade Milled Grind Black Wedge 54° SB-11 Dynamic Gold", brand: "TaylorMade", price: "$54.99", category: "wedge", img: "https://i.ebayimg.com/images/g/HqYAAeSwE9dpwucJ/s-l300.jpg", url: "https://www.ebay.com/itm/127768173831" },
-      { name: "Cobra Bio Cell Black 3-4 Hybrid Stiff Flex", brand: "Cobra", price: "$39.99", category: "hybrid", img: "https://i.ebayimg.com/images/g/jIkAAeSwHGxpwdwC/s-l300.jpg", url: "https://www.ebay.com/itm/127766466322" },
-      { name: "Titleist 917 F2 7 Fairway Wood 21° Diamana Red 60g Senior RH", brand: "Titleist", price: "$114.99", category: "driver", img: "https://i.ebayimg.com/images/g/f5AAAeSwPZBpwA74/s-l300.jpg", url: "https://www.ebay.com/itm/127763698752" },
-      { name: "Mizuno MP-18 MMC Fli-Hi 3 Iron Project X 6.5 Precision Shaft", brand: "Mizuno", price: "$84.99", category: "irons", img: "https://i.ebayimg.com/images/g/X8MAAeSwOI5phsgL/s-l300.jpg", url: "https://www.ebay.com/itm/127670588785" },
-      { name: "Nike VRS HighCOR Face 7-Iron Set 5-AW Steel Shaft RH", brand: "Nike", price: "$59.99", category: "irons", img: "https://i.ebayimg.com/images/g/gd4AAeSwC0Jpp3bB/s-l300.jpg", url: "https://www.ebay.com/itm/127716997564" },
-      { name: "TaylorMade R580 5 Fairway Wood 18° MAS2 Regular Graphite RH", brand: "TaylorMade", price: "$24.99", category: "driver", img: "https://i.ebayimg.com/images/g/QQEAAeSwa25pp3HA/s-l300.jpg", url: "https://www.ebay.com/itm/127716964804" },
-      { name: "Miura TC-201 Forged Black QPQ 6-PW Iron Set Stiff Shafts RH", brand: "Miura", price: "$1,149.99", category: "irons", img: "https://i.ebayimg.com/images/g/mlkAAeSw6B5pvgOL/s-l300.jpg", url: "https://www.ebay.com/itm/127760754036" },
-      { name: "Tour Edge Bazooka Jmax Tour Ironwood 3 Hybrid 22° Aldia NV Shaft", brand: "Tour Edge", price: "$14.99", category: "hybrid", img: "https://i.ebayimg.com/images/g/HsgAAeSwe2xoqSvv/s-l300.jpg", url: "https://www.ebay.com/itm/127325373186" },
-      { name: "Nike Ignite #3 Hybrid — Uniflex", brand: "Nike", price: "$14.99", category: "hybrid", img: "https://i.ebayimg.com/images/g/Ik4AAeSw~DRpJniw/s-l300.jpg", url: "https://www.ebay.com/itm/127525335120" },
-    ];
+        document.getElementById('checkout-button').addEventListener('click', async () => {
+            const { error } = await stripe.redirectToCheckout({
+                lineItems: cart.map(item => ({ price: item.id, quantity: 1 })),
+                mode: 'payment',
+                successUrl: 'https://your-success-url.com',
+                cancelUrl: 'https://your-cancel-url.com',
+            });
+            if (error) {
+                console.error('Checkout error:', error);
+            }
+        });
 
-    function renderClubs(filter) {
-      const grid = document.getElementById('club-grid');
-      const filtered = filter === 'all' ? clubs : clubs.filter(c => c.category === filter);
-      if (!filtered.length) {
-        grid.innerHTML = '<div class="no-results">No listings in this category right now — check back soon!</div>';
-        return;
-      }
-      grid.innerHTML = filtered.map(c => `
-        <div class="club-card">
-          <div class="club-card-img">
-            <img src="${c.img}" alt="${c.name}" loading="lazy" />
-            <div class="club-platform-badge">eBay</div>
-          </div>
-          <div class="club-card-body">
-            <div class="club-brand">${c.brand}</div>
-            <div class="club-name">${c.name}</div>
-            <div class="club-footer">
-              <div class="club-price">${c.price}</div>
-              <a href="${c.url}" target="_blank" class="buy-now-btn">Buy Now →</a>
-            </div>
-          </div>
-        </div>`).join('');
-    }
+        // Example products
+        const products = [
+            { id: 'prod_1', name: 'Golf Ball Set', price: 30 },
+            { id: 'prod_2', name: 'Golf Club', price: 150 },
+        ];
 
-    function filterClubs(filter, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderClubs(filter);
-    }
-
-    renderClubs('all');
-  </script>
+        products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.innerHTML = `<h3>${product.name}</h3><p>Price: $${product.price}</p><button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>`;
+            document.getElementById('product-list').appendChild(productDiv);
+        });
+    </script>
 </body>
 </html>
